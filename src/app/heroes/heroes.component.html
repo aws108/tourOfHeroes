@@ -1,0 +1,82 @@
+<!--
+<h2>{{hero.name | uppercase}} Details</h2>
+
+<div><span>id: </span>{{hero.id}}</div>
+<div><span>name: </span>{{hero.name}}</div>
+-->
+
+<!--
+Los usuarios deberían poder editar el nombre del héroe en un cuadro de texto <input>.
+El cuadro de texto debe mostrar la propiedad del nombre del héroe y actualizar esa propiedad
+a medida que el usuario escribe. Eso significa que los datos fluyen desde la clase de componente
+hacia la pantalla y desde la pantalla de regreso a la clase.
+Para automatizar ese flujo de datos, configure un enlace de datos bidireccional entre el
+elemento de formulario <input> y la propiedad hero.name -->
+<!--
+<div>
+    <label>name:
+      <input [(ngModel)]="hero.name" placeholder="name"/> -A-
+    </label>
+</div>
+-->
+<!--A: [(ngModel)] es la sintaxis de enlace de datos bidireccional de Angular. Aquí vincula
+    la propiedad hero.name al cuadro de texto HTML para que los datos puedan fluir en
+    ambas direcciones: desde la propiedad hero.name al cuadro de texto, y desde el cuadro
+    de texto de nuevo al hero.name. Al incluir ngModel petará porque no es una directiva
+    by default, para esto hay que importar el FormsModule en app.module.ts-->
+
+<!--======================================================================================-->
+<!--======================================================================================-->
+
+<!--Para hacer clic en un héroe en la lista y revelar detalles sobre ese héroe,
+    necesita una sección para que los detalles se muestren en la plantilla. -->
+
+<div *ngIf="selectedHero"> <!--C-->
+    <h2>{{selectedHero.name | uppercase}} Details</h2>
+    <div>
+        <span>id: </span>{{selectedHero.id}}
+    </div>
+    <div>
+        <label>name:
+            <input [(ngModel)]="selectedHero.name" placeholder="name"/> 
+        </label>
+    </div>
+</div>
+
+<h2>My Heroes</h2>
+<ul class="heroes">
+    <li *ngFor="let hero of heroes" 
+        [class.selected]="hero === selectedHero"
+        (click)="onSelect(hero)">
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </li> <!-- D -->
+</ul>
+
+<!--
+<h2>My Heroes</h2>
+<ul class="heroes">
+    <li *ngFor="let hero of heroes" (click)="onSelect(hero)"> - B -
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </li>
+</ul>
+-->
+
+<!--B: for para que salgan todos los elementos del array de heroes. 
+    Cuando se haga clic en un héroe, se mostrarán abajo los detalles del héroe seleccionado 
+    Los paréntesis alrededor de clic le dicen a Angular que escuche el evento de clic del elemento <li>.
+    Cuando el usuario hace clic en <li>, Angular ejecuta la expresión onSelect (héroe).-->
+
+<!--C. con esto haces que el componente solo mostrará los detalles del héroe seleccionado si el
+héroe seleccionado existe. Se hace porque al iniciar la aplicación, selectedHero es undefined por defecto,
+es decir, no hay héroe seleccionado. Con el if se oculta este fallo, ya que, si es undefined, no debe
+aparecer.
+
+Cuando selectedHero no está definido, ngIf elimina los detalles del héroe del DOM. 
+No hay enlaces de Hero seleccionados para tener en cuenta.
+
+Cuando el usuario elige un héroe, selectedHero tiene un valor y ngIf coloca los detalles del héroe
+en el DOM.-->
+
+<!--D: Esto hace que cuando se seleccione un heroe se quede marcado como seleccionado
+When the current row hero is the same as the selectedHero, Angular adds the selected CSS class.
+When the two heroes are different, Angular removes the class.-->
