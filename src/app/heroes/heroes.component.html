@@ -31,7 +31,8 @@ elemento de formulario <input> y la propiedad hero.name -->
 <!--Para hacer clic en un héroe en la lista y revelar detalles sobre ese héroe,
     necesita una sección para que los detalles se muestren en la plantilla. -->
 
-<div *ngIf="selectedHero"> <!--C-->
+    <!---
+<div *ngIf="selectedHero"> -C-
     <h2>{{selectedHero.name | uppercase}} Details</h2>
     <div>
         <span>id: </span>{{selectedHero.id}}
@@ -42,8 +43,12 @@ elemento de formulario <input> y la propiedad hero.name -->
         </label>
     </div>
 </div>
+-->
 
 <h2>My Heroes</h2>
+
+<app-hero-detail [hero]="selectedHero"></app-hero-detail> <!-- E -->
+
 <ul class="heroes">
     <li *ngFor="let hero of heroes" 
         [class.selected]="hero === selectedHero"
@@ -51,6 +56,8 @@ elemento de formulario <input> y la propiedad hero.name -->
         <span class="badge">{{hero.id}}</span> {{hero.name}}
     </li> <!-- D -->
 </ul>
+
+
 
 <!--
 <h2>My Heroes</h2>
@@ -80,3 +87,7 @@ en el DOM.-->
 <!--D: Esto hace que cuando se seleccione un heroe se quede marcado como seleccionado
 When the current row hero is the same as the selectedHero, Angular adds the selected CSS class.
 When the two heroes are different, Angular removes the class.-->
+
+<!-- E: esto ahora hace la función que hacía antes, pero ahora es un enlace al componente hero-detail.
+Se trata de un enlace unidireccional desde la propiedad selectedHero de HeroesComponent,
+ que mapea la propiedad de HeroDetailComponent-->
