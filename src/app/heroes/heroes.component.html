@@ -47,17 +47,34 @@ elemento de formulario <input> y la propiedad hero.name -->
 
 <h2>My Heroes</h2>
 
-<app-hero-detail [hero]="selectedHero"></app-hero-detail> <!-- E -->
+<!--<app-hero-detail [hero]="selectedHero"></app-hero-detail> -- E -->
 
+<!-- Antes
 <ul class="heroes">
     <li *ngFor="let hero of heroes" 
         [class.selected]="hero === selectedHero"
         (click)="onSelect(hero)">
         <span class="badge">{{hero.id}}</span> {{hero.name}}
-    </li> <!-- D -->
+    </li> -- D --
+</ul>
+-->
+<!-- Después gracias al routing-->
+<ul class="heroes">
+    <li *ngFor="let hero of heroes">
+      <a routerLink="/detail/{{hero.id}}"> <!-- Cambio del evento anterior por el routerLink -->
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+      </a>
+    </li>
 </ul>
 
-
+<p></p>
+<div> <!-- Para añadir un héroe -->
+    <label>Hero name:
+      <input #heroName />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(heroName.value); heroName.value=''">add</button>
+</div>
 
 <!--
 <h2>My Heroes</h2>

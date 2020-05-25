@@ -16,6 +16,9 @@ héroe para mostrar cuando el usuario seleccione un héroe de la lista.
 
 import { Component, OnInit, Input } from '@angular/core'; //A
 import { Hero } from '../hero'; //hero.ts
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { HeroService }  from '../hero.service';
 
 @Component({
   selector: 'app-hero-detail',
@@ -26,14 +29,49 @@ export class HeroDetailComponent implements OnInit {
 
   @Input() hero: Hero;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private heroService: HeroService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
+    this.getHero();
+  }
+
+  getHero(): void{
+    const id = +this.route.snapshot.paramMap.get('id'); //B
+    this.heroService.getHero(id)
+      .subscribe(hero => this.hero = hero);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  save(): void {
+    this.heroService.updateHero(this.hero)
+      .subscribe(() => this.goBack());
   }
 
 }
 
-
-/*A: Importamos el Input para luego usarlo más tarde para vincular
+/*
+A: Importamos el Input para luego usarlo más tarde para vincular
 el HeroesComponent con la propiedad de hero a través del @Input. 
-La propiedad de hero será una propiedad de entrada*/
+La propiedad de hero será una propiedad de entrada
+
+B: Route.snapshot es una imagen estática de la información de ruta poco después de que se creó
+el componente. Es una de las maneras de acceder a los parámetros. Se usa cuando no hay que actualizar
+la URL dentro del mismo componente al que está accediendo. 
+
+Para .subscribe y para .snapshot
+https://medium.com/@tiboprea/accessing-url-parameters-in-angular-snapshot-vs-subscription-efc4e70f9053
+
+paramMap es un diccionario de valores de parámetros de ruta extraídos de la URL. Aquí lo que se hace 
+es tomar la "id" y ese valor devuelve el id del héroe a buscar.
+
+Los parámetros de ruta son siempre Strings. El operador de JavaScript (+) convierte la cadena en un
+número (parsea), que es lo que un héroe debería ser (id).
+
+*/

@@ -1,14 +1,29 @@
 <!-- * Esto es la shell de la web, esto es la plantilla principal * -->
-
+<!--Incluyes cada componente que se añade-->
 
 
 
 <h1>{{title}}</h1> <!-- A-->
 
-<app-heroes></app-heroes> <!--Incluyes cada componente que se añade-->
+<!--<app-heroes></app-heroes> --> <!-- B -->
+
+<nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/heroes">Componente de héroes</a> <!-- C -->
+</nav>
 
 <router-outlet></router-outlet>
 
+<app-message></app-message>
 
+<!-- 
+A: Título del componente, ver app.component.ts 
 
-<!-- A: Título del componente, ver app.component.ts -->
+B: Ya no se necesita app-heroes gracias a router-outlet, porque la aplicación sólo mostrará
+    HeroesComponent cuando el usuario navegue hacia ella. <router-outlet> le dice al enrutador
+    dónde mostrar las vistas enrutadas. Sólo se ejecutará cuando el usuario se dirija
+
+C: Se crea un enlace al /heroes. Irá al enlace gracias a esta línea del app-routing.module.ts:
+    const routes: Routes = [{ path: 'heroes', component: HeroesComponent }];
+
+-->

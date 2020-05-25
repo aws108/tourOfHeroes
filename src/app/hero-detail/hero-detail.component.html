@@ -9,4 +9,19 @@
             <input [(ngModel)]="hero.name" placeholder="name"/> 
         </label>
     </div>
+    <p></p>
+    <button (click)="save()">Guardar</button> <!--A-->
+    <button (click)="goBack()">Atrás</button> <!-- conel método goBack, instanciarla en el .ts-->
 </div>
+
+
+
+
+
+<!--
+A:  A medida que escribe, el nombre del héroe actualiza el encabezado en la parte superior de la página. Pero cuando hace clic en el botón "volver", los cambios se pierden.
+    Si desea que los cambios persistan, debe volver a escribirlos en el servidor.
+
+
+
+-->
